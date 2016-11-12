@@ -10,11 +10,16 @@ $(document).ready(function() {
 
 var controllers = {
   submitQuery: function() {
+    var query = $("#input").val();
     $.post({
       url: '/submit',
-      data: $("#input").val()
+      data: query
     }).done(function(data) {
-      view.addQueryAndResponse();
+      if (data.success) {
+        view.addQueryAndResponse(query, data.response);
+      } else {
+        console.log(err);
+      }
     }).fail(function(err) {
       console.log(err);
     });
