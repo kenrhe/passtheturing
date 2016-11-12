@@ -69,19 +69,3 @@ def parseTxt(txtInput):
 #testCase		
 parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
 
-
-		db.dialogue.insert({"query" : pair,
-							"query_type" : query_type,
-							"query_clean" : pair.translate(None, string.punctuation).lower().strip(),
-							"responses" : [[pairs[pair], 0]] })
-
-def parseZip(zipInput):
-	with zipfile.ZipFile(zipInput,'r') as zip:
-		parsePairs(zip.read(zip.infolist()[0]))
-
-def parseTxt(txtInput):
-	with open(txtInput) as fileStream: 
-		parseTxt(fileStream.read())
-
-#testCase		
-parseZip('/Users/kennethrhee/projects/passtheturing/util/scripts/subs/movie-breakfast-club.zip')
