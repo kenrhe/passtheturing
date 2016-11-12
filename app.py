@@ -20,13 +20,29 @@ def submit():
     query_clean = query.translate(None, string.punctuation).lower().strip()
 
     a = db.dialogue.find_one({"query_clean" : query_clean})
+    _id = None
 
     if a == None:
         response = "I have no idea what you're saying."
     else:
+        _id = a["_id"]
         response = a['responses'][0][0]
 
-    return jsonify(success=True, response=response)
+    return jsonify(success=True, response=response, _id=_id)
+
+@app.route('/upvote', methods=["GET"])
+def upvote():
+    id = str(request.arg.get('id'))
+    a = db.dialogue.find_one({"id": id})
+    
+    return jsonify(success=True)
+
+@app.route('/downvote', methods=["GET"])
+def downvote():
+    id = str(request.arg.get('id'))
+    a = db.dialogue.find_one({"id": id})
+
+    return jsonify(success=True)
 
 @app.route('/')
 def index():

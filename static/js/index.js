@@ -12,7 +12,7 @@ $(document).ready(function() {
   $("#output").on("click", "i", function() {
     var id = this.id;
     if (id.substring(0, 2) === "up") {
-      return controllers.upvote(id.substring(2, id.length));
+      return controllers.upvote(id.substring(2 , id.length));
     } else {
       return controllers.downvote(id.substring(4, id.length));
     }
@@ -112,22 +112,22 @@ var view = {
   },
   loadChatbot: function() {
     this.addSystemLine(50, "Loading modules.....");
-    this.addSystemLine(100, "Initializing synaptic network.....");
+    this.addSystemLine(100, "Initializing semantic network.....");
     this.addSystemLine(1000, "Creating sandbox.....");
     this.addSystemLine(1400, "Completed!");
     this.addChatbotLine(1500, "Hi! Let's have a conversation!");
   },
   quitChatbot: function() {
     this.addSystemLine(100, "Exiting sandbox.....");
-    this.addSystemLine(400, "Exiting synaptic network.....");
+    this.addSystemLine(400, "Exiting semantic network.....");
     this.addSystemLine(1100, "Completed!");
   },
   upvote: function(id) {
-    $("$up" + id).css("color", "yellow");
-    $("$down" + id).css("color", "white");
+    $("$up" + id).addClass("yellow");
+    $("$down" + id).removeClass("yellow");
   },
   downvote: function(id) {
-    $("$down" + id).css("color", "yellow");
-    $("$up" + id).css("color", "white");
+    $("$down" + id).addClass("yellow");
+    $("$up" + id).removeClass("yellow");
   }
 };
