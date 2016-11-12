@@ -25,6 +25,9 @@ def parsePairs(file):
 
 	#find answers in latter half of split, remove newlines, trailing dashes and whitespace
 	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer[1], re.M) for answer in results]
+	for answer in answers:
+		if len(answer) == 0:
+			answer.append("Lol.")
 	answers = [re.sub(r'[\n\r]+', ' ', answer[0]).lstrip() for answer in answers]
 	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M)[0].lstrip() for answer in answers]
 
