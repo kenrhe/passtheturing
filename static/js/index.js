@@ -7,10 +7,13 @@ $(document).ready(function() {
   $("#5").delay(1200).fadeIn(0);
   $("#6").delay(1250).fadeIn(0);
   $("#7").delay(1300).fadeIn(0);
-  $("#input").delay(1350).focus();
+  setTimeout(function() {
+    view.focusInput();
+  }, 1350);
   $("#input").on("keydown", function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
+      view.hideInput();
       controllers.submitQuery();
     }
   });
@@ -18,7 +21,7 @@ $(document).ready(function() {
 
 var controllers = {
   submitQuery: function() {
-    var query = $("#input").val();
+    var query = $("#input").text();
     $.post({
       url: '/submit',
       data: query
@@ -35,8 +38,27 @@ var controllers = {
 };
 
 var view = {
+  scrollToBottom: function() {
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+  showInput: function() {
+    $("#input").show();
+  },
+  hideInput: function() {
+    $("#input").hide();
+  },
+  clearInput: function() {
+    $("#input").text("");
+  },
+  focusInput: function() {
+    $("#input").focus();
+  },
   addQueryAndResponse: function(query, response) {
-    $("#bash").apppend("<br>$ <span class='yellow'> "+ query + "</span>\
-      <br>chatbot$ <span class='green'> " + response + "</span>");
+    $("#bash-output").append("<div class='bash-line'>user$ <span class='yellow'> " + query + "</span></div>\
+      <div class='bash-line'>chatbot$ <span class='green'> " + response + "</span></div>");
+    view.clearInput();
+    view.showInput();
+    view.focusInput();
+    view.scrollToBottom();
   }
 };
