@@ -15,9 +15,8 @@ import os
 #===================================
 @app.route('/')
 def index():
-    print db.dialogue.find()[0]
-    print "hello world"
-    return str(db.dialogue.find()[0])
+    a = list(db.dialogue.find({"$text" : {"$search" : "How are you"}}))
+    print a
     return render_template('index.html')
 
 if __name__ == '__main__':
