@@ -5,6 +5,7 @@ staticfiles
 .env
 *.DS_Store
 dev_config.cfg
+push.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
