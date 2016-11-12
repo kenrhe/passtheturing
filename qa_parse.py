@@ -1,5 +1,11 @@
 import re
 import zipfile
+from pymongo import MongoClient
+
+URI = "mongodb://admin:alanturing9448@ds151707.mlab.com:51707/passtheturing"
+
+mc = MongoClient(URI)
+db = mc.passtheturing
 
 pairs = {}
 
@@ -29,6 +35,11 @@ def parsePairs(file):
 	for pair in pairs:
 		print(pair, pairs[pair])
 
+		if db.dialogue.find({"query" : pair}).count() != 0:
+			db.dialogue.update({"query" : pair}, {"$push" : {"responses" : [pairs[pair], 0]}})
+
+		db.dialogue.insert({"query" : pair, "responses" : [[pairs[pair], 0]] })
+
 def parseZip(zipInput):
 	with zipfile.ZipFile(zipInput,'r') as zip:
 		parsePairs(zip.read(zip.infolist()[0]))
@@ -38,4 +49,4 @@ def parseTxt(txtInput):
 		parseTxt(fileStream.read())
 
 #testCase		
-#parseZip('C:/Users/Vincent/Desktop/BreakfastZip.zip')
+parseZip('/Users/kennethrhee/projects/passtheturing/util/movie.zip')

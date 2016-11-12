@@ -28,17 +28,10 @@ var controllers = {
       }
     }
     if (chatbot) {
-      $.post({
-        url: '/submit',
-        data: query
-      }).done(function(data) {
-        if (data.success) {
-          view.addResponse(data.response);
-        } else {
-          view.addSystemLine(0, data.response);
-        }
-      }).fail(function(err) {
-        console.log(err);
+      $.getJSON('/submit', {
+        query : query
+      }, function(data) {
+        view.addResponse(data.response);
       });
     } else {
       return view.addSystemLine(0, "No current chatbot");

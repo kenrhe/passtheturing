@@ -13,11 +13,17 @@ import os
 #===================================
 # Routes ####
 #===================================
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=["GET"])
 def submit():
-    if request.method == 'POST':
-        dict = {"success": True, "response": "Hi! That is totally amazing wow! Congratulations!"}
-        return jsonify(**dict)
+    # print request.args.get('query')
+
+    a = db.dialogue.find_one({"query" : request.args.get('query')})
+    if a == None:
+        response = "I have no idea what you're saying."
+    else:
+        response = a['responses'][0][0]
+
+    return jsonify(success=True, response=response)
 
 @app.route('/')
 def index():
