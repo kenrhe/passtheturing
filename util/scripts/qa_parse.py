@@ -1,6 +1,7 @@
 import re
 import zipfile
 from pymongo import MongoClient
+import string
 
 URI = "mongodb://admin:alanturing9448@ds151707.mlab.com:51707/passtheturing"
 
@@ -35,10 +36,20 @@ def parsePairs(file):
 	for pair in pairs:
 		print(pair, pairs[pair])
 
-		if db.dialogue.find({"query" : pair}).count() != 0:
-			db.dialogue.update({"query" : pair}, {"$push" : {"responses" : [pairs[pair], 0]}})
+		pair_clean = pair.translate(None, string.punctuation).lower().strip()
 
-		db.dialogue.insert({"query" : pair, "responses" : [[pairs[pair], 0]] })
+		if db.dialogue.find({"query_clean" : pair_clean}).count() != 0:
+			db.dialogue.update({"query_clean" : pair_clean}, {"$push" : {"responses" : [pairs[pair], 0]}})
+
+		if "?" in pair:
+			query_type = "question"
+		else:
+			query_type = "statement"
+
+		db.dialogue.insert({"query" : pair,
+							"query_type" : query_type,
+							"query_clean" : pair.translate(None, string.punctuation).lower().strip(),
+							"responses" : [[pairs[pair], 0]] })
 
 def parseZip(zipInput):
 	with zipfile.ZipFile(zipInput,'r') as zip:
@@ -49,4 +60,4 @@ def parseTxt(txtInput):
 		parseTxt(fileStream.read())
 
 #testCase		
-parseZip('/Users/kennethrhee/projects/passtheturing/util/movie.zip')
+parseZip('/Users/kennethrhee/projects/passtheturing/util/scripts/subs/movie-breakfast-club.zip')
