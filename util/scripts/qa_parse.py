@@ -33,8 +33,12 @@ def parsePairs(file):
 		if len(answer) == 0:
 			answer.append("Lol.")
 	answers = [re.sub(r'[\n\r]+', ' ', answer[0]).lstrip() for answer in answers]
-	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M)[0].lstrip() for answer in answers]
-
+	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M) for answer in answers]
+	for answer in answers:
+		if len(answer) == 0:
+			answer.append("Lol.")
+	answers = [answer[0].lstrip() for answer in answers]
+	
 	#fill dict
 	for i in range(0, len(questions)):
 		pairs[questions[i]] = answers[i];
