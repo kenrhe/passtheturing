@@ -15,10 +15,10 @@ import os
 #===================================
 @app.route('/')
 def index():
-	print db.dialogue.find()[0]
-	print "hello world"
-	return db.dialogue.find()[0]
-	return render_template('index.html')
+    print db.dialogue.find()[0]
+    print "hello world"
+    return str(db.dialogue.find()[0])
+    return render_template('index.html')
 
 if __name__ == '__main__':
     port = 5000
