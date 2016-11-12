@@ -2,6 +2,7 @@ var chatbot = null;
 
 $(document).ready(function() {
   view.focusInput();
+  controllers.loadChatbot("Alan");
   $("#input").on("keydown", function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -14,28 +15,28 @@ var controllers = {
   submitQuery: function() {
     var query = $("#input").text();
     view.addQuery(query);
-    if (query.substring(0, 8) === "(chatbot") {
-      if (!chatbot) {
-        return this.loadChatbot(query.substring(9, query.length - 1));
-      } else {
-        return view.addSystemLine(0, "Need to quit current chatbot");
-      }
-    } else if (query === "(quit)") {
-      if (chatbot) {
-        return this.quitChatbot();
-      } else {
-        return view.addSystemLine(0, "No current chatbot");
-      }
-    }
-    if (chatbot) {
+    // if (query.substring(0, 8) === "(chatbot") {
+    //   if (!chatbot) {
+    //     return this.loadChatbot(query.substring(9, query.length - 1));
+    //   } else {
+    //     return view.addSystemLine(0, "Need to quit current chatbot");
+    //   }
+    // } else if (query === "(quit)") {
+    //   if (chatbot) {
+    //     return this.quitChatbot();
+    //   } else {
+    //     return view.addSystemLine(0, "No current chatbot");
+    //   }
+    // }
+    // if (chatbot) {
       $.getJSON('/submit', {
         query : query
       }, function(data) {
         view.addResponse(data.response);
       });
-    } else {
-      return view.addSystemLine(0, "No current chatbot");
-    }
+    // } else {
+      // return view.addSystemLine(0, "No current chatbot");
+    // }
   },
   loadChatbot: function(name) {
     chatbot = name;
