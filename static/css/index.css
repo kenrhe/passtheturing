@@ -6,7 +6,7 @@ body {
   padding: 0;
 }
 
-.bash-line {
+.line {
 	margin-top: 0.7em;
 }
 
@@ -20,4 +20,8 @@ body {
 
 .yellow {
 	color: #FFDE00;
+}
+
+.orange {
+	color: #FFA500;
 }
