@@ -9,6 +9,14 @@ $(document).ready(function() {
       controllers.submitQuery();
     }
   });
+  $("#output").on("click", "i", function() {
+    var id = this.id;
+    if (id.substring(0, 2) === "up") {
+      return controllers.upvote(id.substring(2, id.length));
+    } else {
+      return controllers.downvote(id.substring(4, id.length));
+    }
+  });
 });
 
 var controllers = {
@@ -30,9 +38,9 @@ var controllers = {
     // }
     // if (chatbot) {
       $.getJSON('/submit', {
-        query : query
+        query: query
       }, function(data) {
-        view.addResponse(data.response);
+        view.addResponse(data.response, data._id);
       });
     // } else {
       // return view.addSystemLine(0, "No current chatbot");
@@ -45,6 +53,20 @@ var controllers = {
   quitChatbot: function() {
     chatbot = null;
     view.quitChatbot();
+  },
+  upvote: function(id) {
+    $.getJSON('/upvote', {
+      id: id
+    }, function() {
+      view.upvote(id);
+    });
+  },
+  downvote: function(id) {
+    $.getJSON('/downvote', {
+      id: id
+    }, function() {
+      view.downvote(id);
+    });
   }
 };
 
@@ -67,9 +89,9 @@ var view = {
       view.scrollToBottom();
     }, delay);
   },
-  addChatbotLine: function(delay, message) {
+  addChatbotLine: function(delay, message, id) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + id + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + id + "'></i></div>");
       view.scrollToBottom();
     }, delay);
   },
@@ -84,8 +106,8 @@ var view = {
     this.clearInput();
     this.blurInput();
   },
-  addResponse: function(response) {
-    this.addChatbotLine(0, response);
+  addResponse: function(response, id) {
+    this.addChatbotLine(0, response, id);
     this.focusInput();
   },
   loadChatbot: function() {
@@ -99,5 +121,13 @@ var view = {
     this.addSystemLine(100, "Exiting sandbox.....");
     this.addSystemLine(400, "Exiting synaptic network.....");
     this.addSystemLine(1100, "Completed!");
+  },
+  upvote: function(id) {
+    $("$up" + id).css("color", "yellow");
+    $("$down" + id).css("color", "white");
+  },
+  downvote: function(id) {
+    $("$down" + id).css("color", "yellow");
+    $("$up" + id).css("color", "white");
   }
 };
