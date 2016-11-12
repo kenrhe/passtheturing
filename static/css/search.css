@@ -1,0 +1,16 @@
+body {
+    background-color: #EEEEEE;
+    text-align: center;
+}
+
+.search-form {
+    width: 360px;
+    margin: 0 auto;
+}
+
+.error {
+    width: 35%;
+    margin: 0 auto;
+    margin-bottom: 12px;
+    padding: 6px;
+}

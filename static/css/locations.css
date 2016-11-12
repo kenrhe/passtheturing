@@ -1,0 +1,10 @@
+body {
+    background-color: #EEEEEE;
+}
+
+.list-container {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 96px;
+}

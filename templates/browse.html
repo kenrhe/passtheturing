@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+<link type="text/css" rel="stylesheet" href="/static/css/browse.css"/>	
+
+<script>
+  (function($) {
+    $( document ).ready(function() {
+      var $container = $( '.row' );
+      $container.masonry({
+        itemSelector: '.mason-item'
+      });
+      var msnry = $container.data('masonry');
+    })
+  })(jQuery)
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row-container">
+	<div class="page-header">
+		<h1>Browse Rated Hotels</h1>
+	</div>
+	<div class="row">
+	{% for city in cities %}
+		<div class="mason-item col-sm-6 col-md-3">
+			<div class="thumbnail">
+				<div class="caption">
+					<h4>{{city.name}}</h4>
+					<p>{{city.population}}</p>
+					<p>{{city.country}}</p>
+					<p>{{city.ratings}}</p>
+					<p><a href="{{ ''.join(['/browse/', hotel.url]) }}" class="btn btn-primary" role="button">Reviews</a></p>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

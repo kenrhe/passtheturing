@@ -1,0 +1,9 @@
+.row-container .page-header {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.row-container .row {
+	margin: 1% auto 0;
+	float: none !important;
+}

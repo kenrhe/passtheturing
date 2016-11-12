@@ -1,0 +1,57 @@
+.initial-background-container {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	margin: 0;
+	position: absolute;
+	background-color: #FFF;
+    opacity: 0.6;
+}
+
+.initial-cover {
+	top: 0; bottom: 0; left: 0; right: 0;
+	text-align: center;
+	width: auto;
+	height: 40%;
+	margin: auto;
+	position: absolute;
+}
+
+.initial-cover .center-text h1 {
+	font-size: 60px;
+}
+
+.initial-cover .center-text p {
+	font-size: 30px;
+}
+
+.container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+#map-canvas { height: 100%; margin: 0; padding: 0;}
+
+.gm-style-iw {
+width: 300px; 
+min-height: 150px;
+}
+
+.bg-pic {
+	max-width: 100%;
+	height: 300px;
+	margin-top: 24px;
+	border-radius: 6px;
+}
+
+h1 {
+	font-size: 48px;
+}
+
+p {
+	font-size: 24px;
+}
