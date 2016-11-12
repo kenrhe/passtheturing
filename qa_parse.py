@@ -1,15 +1,16 @@
 import re
+import zipfile
+
+pairs = {}
 
 def parsePairs(file):
 	results = []
 	questions = []
 	responses = []
 
-	#grab question/answer pairs
-	with open(file) as fileStream: #replace path
-		fileString = fileStream.read()
-		results = re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[?][^.!]+[.!]', fileString, re.M)
-
+	#qa pairs
+	results = re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[?][^.!]+[.!]', file, re.M)
+	
 	#split off questions, remove newlines, trailing dashes and whitespace
 	results = [re.split(r'[?]', result, 1, re.M) for result in results]
 	questions = [re.sub(r'[\n\r]+', ' ', question[0] + '?').lstrip() for question in results]
@@ -21,10 +22,20 @@ def parsePairs(file):
 	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M)[0].lstrip() for answer in answers]
 
 	#fill dict
-	pairs = {}
 	for i in range(0, len(questions)):
 		pairs[questions[i]] = answers[i];
 	
 	#print formatted pairs
 	for pair in pairs:
 		print(pair, pairs[pair])
+
+def parseZip(zipInput):
+	with zipfile.ZipFile(zipInput,'r') as zip:
+		parsePairs(zip.read(zip.infolist()[0]))
+
+def parseTxt(txtInput):
+	with open(txtInput) as fileStream: 
+		parseTxt(fileStream.read())
+
+#testCase		
+#parseZip('C:/Users/Vincent/Desktop/BreakfastZip.zip')
