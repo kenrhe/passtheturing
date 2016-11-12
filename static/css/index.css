@@ -2,8 +2,12 @@ body {
   background:#181818;
   font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
   color: white;
-  margin: 0;
+  margin: 4em 0 0 3em;
   padding: 0;
+}
+
+.bash-line {
+	margin-top: 0.7em;
 }
 
 #input:focus {
@@ -15,5 +19,5 @@ body {
 }
 
 .yellow {
-	color: #FDBF3B;
+	color: #FFDE00;
 }

@@ -5,18 +5,14 @@
 {% endblock %}
 
 {% block content %}
-<div>
-  <h2>Chatbot</h2>
-  <div id="bash">
-    <br>$ <span class="green">cd chatbot</span>
-    <br>$ <span class="green">run chatbot</span>
-    <br>$ <span class="green">Loading modules.....</span>
-    <br>$ <span class="green">Creating sandbox.....</span>
-    <br>$ <span class="green">Completed!</span>
-    <br>chatbot$ <span class="green">Hi! Let's have a conversation!</span>
-  </div>
-  <div id="prompt">
-    user$ <span class="yellow" id='input' contenteditable="true"></span>
-  </div>
+<h2>Chatbot</h2>
+<div id="bash-output">
+  <div class="bash-line" id="1">$ <span class="green">run chatbot</span></div>
+  <div class="bash-line" id="2">$ <span class="green">Loading modules.....</span></div>
+  <div class="bash-line" id="3">$ <span class="green">Initializing synaptic network.....</span></div>
+  <div class="bash-line" id="4">$ <span class="green">Creating sandbox.....</span></div>
+  <div class="bash-line" id="5">$ <span class="green">Completed!</span></div>
+  <div class="bash-line" id="6">chatbot$ <span class="green">Hi! Let's have a conversation!</span></div>
 </div>
+<div class="bash-line" id="7">user$ <span class="yellow" id='input' contenteditable="true"></span></div>
 {% endblock %}
