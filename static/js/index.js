@@ -64,27 +64,31 @@ var view = {
   focusInput: function() {
     $("#input").focus();
   },
+  blurInput: function() {
+    $("#input").blur();
+  },
   addUserLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>user$ <span class='yellow'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>user$ &zwnj;<span class='yellow'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
   addChatbotLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$ <span class='green'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
   addSystemLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>system$ <span class='orange'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>system$ &zwnj;<span class='orange'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
   addQuery: function(query) {
     this.addUserLine(0, query);
     this.clearInput();
+    this.blurInput();
   },
   addResponse: function(response) {
     this.addChatbotLine(0, response);
