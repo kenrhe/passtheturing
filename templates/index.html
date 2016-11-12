@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 
 {% block header %}
+<link rel="stylesheet" type="text/css" href="../static/css/index.css">
 {% endblock %}
 
 {% block content %}
-<p>Hello World!</p>
+<div>
+  <h2>Chatbot</h2>
+  <div id="bash">
+    <br>$ <span class="green">cd chatbot</span>
+    <br>$ <span class="green">run chatbot</span>
+    <br>$ <span class="green">Loading modules.....</span>
+    <br>$ <span class="green">Creating sandbox.....</span>
+    <br>$ <span class="green">Completed!</span>
+    <br>chatbot$ <span class="green">Hi! Let's have a conversation!</span>
+  </div>
+  <div id="prompt">
+    user$ <span class="yellow" id='input' contenteditable="true"></span>
+  </div>
+</div>
 {% endblock %}
