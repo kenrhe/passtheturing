@@ -1,7 +1,7 @@
 var chatbot = null;
 var chatbotResponseNumber = 0;
 var chatbotResponseIds = {};
-var start = null;
+var startTime = null;
 var asked = false;
 
 $(document).ready(function() {
@@ -39,7 +39,7 @@ var controllers = {
       startTime = new Date();
       asked = false;
       controllers.addId(data.id);
-      view.addResponse(data.response, !data.isDefault);   
+      view.addResponse(data.response, !data.isDefault);
     });
   },
   submitQuery: function() {
@@ -66,7 +66,7 @@ var controllers = {
         query: query
       }, function(data) {
         controllers.addId(data.id);
-        view.addResponse(data.response, !data.isDefault);      
+        view.addResponse(data.response, !data.isDefault);
       });
     // } else {
       // return view.addSystemLine(0, "No current chatbot");
@@ -167,7 +167,7 @@ var view = {
       $("#output div:last").remove();
     }, Math.max(3000, length));
     this.addChatbotLine(Math.max(3000, length), response, hasButtons);
-    setTimeout(function() { 
+    setTimeout(function() {
       view.enableInput();
     }, Math.max(3000, length));
   },
