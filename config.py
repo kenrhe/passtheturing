@@ -3,7 +3,6 @@ import os
 from flask import Flask
 
 app = Flask(__name__)
-app.config['DEBUG'] = os.environ.get('DEBUG', True)
 
 try:
     app.config.from_pyfile("dev_config.cfg")
@@ -23,4 +22,4 @@ except:
     mc = MongoClient(MONGO_URL)
     db = mc.passtheturing
 
-    print(">>> Production configuration file loaded.")
+    print(">>> Production configuration file loaded. Debug: %s" % (str(app.config["DEBUG"])))
