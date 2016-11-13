@@ -3,7 +3,8 @@ var chatbotResponseNumber = 0;
 var chatbotResponseIds = {};
 
 $(document).ready(function() {
-  controllers.loadChatbot("Alan");
+  chatbot = "Alan";
+  view.focusInput();
   $("#input").on("keydown", function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -100,16 +101,16 @@ var view = {
   },
   addUserLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>you$&zwnj;<span class='yellow'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>you$ &zwnj;<span class='yellow'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
   addChatbotLine: function(delay, message, hasButtons) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$&zwnj;<span class='green'>" + message + "</span></div>");
-      if (hasButtons) {
-        $("#output div:last").append("<div class='buttons'><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i></div>");
-      }
+      $("#output").append("<div class='line gray'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
+      // if (hasButtons) {
+      //   $("#output div:last").append("<div class='buttons'><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i></div>");
+      // }
       view.scrollToBottom();
     }, delay);
   },
