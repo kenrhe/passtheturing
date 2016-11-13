@@ -40,15 +40,6 @@ def sms_request():
 
     return str(response)
 
-def send_sms(to_number, body):
-    account_sid = app.config['TWILIO_ACCOUNT_SID']
-    auth_token = app.config['TWILIO_AUTH_TOKEN']
-    twilio_number = app.config['TWILIO_NUMBER']
-    client = twilio.rest.Client(account_sid, auth_token)
-    client.messages.create(to_number,
-                           from_=twilio_number,
-                           body=body)    
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
