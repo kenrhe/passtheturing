@@ -1,9 +1,9 @@
 body {
   background: #181818;
   font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
-  font-size: 1.5em;
+  font-size: 3em;
   color: white;
-  margin: 2em;
+  margin: 1.5em;
   padding: 0;
 }
 
@@ -12,7 +12,7 @@ hr {
 }
 
 .line {
-	margin-top: 0.5em;
+	margin-top: 1em;
 }
 
 .line span {
