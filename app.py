@@ -37,7 +37,7 @@ def _submit(query):
             isDefault=False
 
         elif (a == None):
-            response = "wat"
+            response = "What?"
             response = db.dialogue.find_one({"query": b})
         if a == None:
             response = "What do you mean?"

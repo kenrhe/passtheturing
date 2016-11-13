@@ -40,7 +40,7 @@ def parsePairs(file):
 
 		pair_clean = pair.translate(None, string.punctuation).lower().strip()
 
-		check_existing = db.dialogue.find_one({"query_clean" : pair_clean})
+		check_existing = db.dialogue.find_one({"query_clean" : pair_clean, "query" : pair})
 
 		if check_existing != None:
 			update = True
