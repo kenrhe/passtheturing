@@ -27,6 +27,20 @@ def submit():
 
     return jsonify(success=True, response=response, id=_id)
 
+@app.route('/question', methods=["GET"])
+def get_question():
+
+    a = db.dialogue.aggregate([{'$sample': {'size': 1 }}])
+
+    a = list(a)[0]
+
+    response = a["responses"][0][0]
+    _id = a["responses"][0][1]
+    isDefault = False
+
+    return jsonify(success=True, response=response, id=_id, isDefault=isDefault)
+
+
 @app.route('/sms/request', methods=["POST"])
 def sms_request():
     query = str(request.form['Body'])
@@ -38,6 +52,7 @@ def sms_request():
     time.sleep(2)
 
     return str(response)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
