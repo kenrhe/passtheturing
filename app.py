@@ -6,6 +6,7 @@ from twilio import twiml
 import os
 import string
 import sys
+import time
 
 #===================================
 # Routes ####
@@ -63,6 +64,9 @@ def sms_request():
 
     response = twiml.Response()
     response.message(resp['response'])
+
+    time.sleep(2)
+
     return str(response)
 
 def send_sms(to_number, body):
