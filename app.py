@@ -4,11 +4,10 @@ from config import app, db
 import os
 import string
 
-# app.register_blueprint(app_browse)
-
 #===================================
 # Routes ####
 #===================================
+
 @app.route('/submit', methods=["GET"])
 def submit():
     query = str(request.args.get('query'))
