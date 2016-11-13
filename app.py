@@ -1,6 +1,7 @@
 from flask import render_template, request, send_from_directory, jsonify
 from config import app, db
 import twilio
+from twilio import twiml
 
 import os
 import string
@@ -26,8 +27,6 @@ def _submit(query):
 
     a = db.dialogue.find_one({"query_clean": query_clean})
     b = db.dialogue.find_one({"responses.0.2" : query_clean})
-
-    print(b)
 
     if a == None:
         a = db.dialogue.find_one({"$text": {"$search": query_clean}})
@@ -61,7 +60,10 @@ def sms_request():
     query = str(request.form['Body'])
     sys.stderr.write(str(query))
     resp = _submit(query)
-    return resp['response']
+
+    response = twiml.Response()
+    response.message(resp['response'])
+    return str(response)
 
 def send_sms(to_number, body):
     account_sid = app.config['TWILIO_ACCOUNT_SID']
