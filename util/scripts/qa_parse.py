@@ -33,8 +33,12 @@ def parsePairs(file):
 		if len(answer) == 0:
 			answer.append("Lol.")
 	answers = [re.sub(r'[\n\r]+', ' ', answer[0]).lstrip() for answer in answers]
-	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M)[0].lstrip() for answer in answers]
-
+	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M) for answer in answers]
+	for answer in answers:
+		if len(answer) == 0:
+			answer.append("Lol.")
+	answers = [answer[0].lstrip() for answer in answers]
+	
 	#fill dict
 	for i in range(0, len(questions)):
 		pairs[questions[i]] = answers[i];
@@ -45,8 +49,15 @@ def parsePairs(file):
 
 		pair_clean = pair.translate(None, string.punctuation).lower().strip()
 
-		if db.dialogue.find({"query_clean" : pair_clean}).count() != 0:
-			db.dialogue.update({"query_clean" : pair_clean}, {"$push" : {"responses" : [pairs[pair], 0]}})
+		check_existing = db.dialogue.find_one({"query_clean" : pair_clean})
+
+		if check_existing != None:
+			update = True
+			for response in check_existing['responses']:
+				if clean(pairs[pair]) == response[2]:
+					update = False
+			if update:
+				db.dialogue.update({"query_clean" : pair_clean}, {"$push" : {"responses" : [pairs[pair], 0, clean_input(pairs[pair])]}})
 
 		if "?" in pair:
 			query_type = "question"
@@ -55,8 +66,8 @@ def parsePairs(file):
 
 		db.dialogue.insert({"query" : pair,
 							"query_type" : query_type,
-							"query_clean" : pair.translate(None, string.punctuation).lower().strip(),
-							"responses" : [[pairs[pair], 0]] })
+							"query_clean" : clean_input(pair),
+							"responses" : [[pairs[pair], 0, clean_input(pairs[pair]) ]] })
 
 def parseZip(zipInput):
 	with zipfile.ZipFile(zipInput,'r') as zip:
@@ -65,6 +76,9 @@ def parseZip(zipInput):
 def parseTxt(txtInput):
 	with open(txtInput) as fileStream: 
 		parseTxt(fileStream.read())
+
+def clean_input(s):
+	return s.translate(None, string.punctuation).lower().strip()
 
 #testCase		
 parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
