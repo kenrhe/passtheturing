@@ -1,6 +1,6 @@
 from flask import render_template, request, send_from_directory, jsonify
 from config import app, db
-from twilio.rest import Client
+import twilio
 
 import os
 import string
@@ -54,7 +54,7 @@ def send_sms(to_number, body):
     account_sid = app.config['TWILIO_ACCOUNT_SID']
     auth_token = app.config['TWILIO_AUTH_TOKEN']
     twilio_number = app.config['TWILIO_NUMBER']
-    client = Client(account_sid, auth_token)
+    client = twilio.rest.Client(account_sid, auth_token)
     client.messages.create(to_number,
                            from_=twilio_number,
                            body=body)    
