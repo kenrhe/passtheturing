@@ -17,6 +17,7 @@ $(document).ready(function() {
     } else {
       controllers.downvote(id.substring(4, id.length));
     }
+    view.focusInput();
   });
 });
 
@@ -42,7 +43,7 @@ var controllers = {
         query: query
       }, function(data) {
         controllers.addId(data.id);
-        view.addResponse(data.response);
+        view.addResponse(data.response, !data.isDefault);
       });
     // } else {
       // return view.addSystemLine(0, "No current chatbot");
@@ -99,19 +100,22 @@ var view = {
   },
   addUserLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>you$ &zwnj;<span class='yellow'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>you$&zwnj;<span class='yellow'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
-  addChatbotLine: function(delay, message) {
+  addChatbotLine: function(delay, message, hasButtons) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i></div>");
+      $("#output").append("<div class='line'>" + chatbot + "$&zwnj;<span class='green'>" + message + "</span></div>");
+      if (hasButtons) {
+        $("#output div:last").append("<i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i>");
+      }
       view.scrollToBottom();
     }, delay);
   },
   addSystemLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>system$ &zwnj;<span class='orange'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>system$&zwnj;<span class='orange'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
@@ -119,8 +123,8 @@ var view = {
     this.hideInput();
     this.addUserLine(0, query);
   },
-  addResponse: function(response) {
-    this.addChatbotLine(0, response);
+  addResponse: function(response, hasButtons) {
+    this.addChatbotLine(0, response, hasButtons);
     this.showInput();
   },
   loadChatbot: function() {
@@ -129,7 +133,7 @@ var view = {
     this.addSystemLine(100, "Initializing semantic network.....");
     this.addSystemLine(1000, "Creating sandbox.....");
     this.addSystemLine(1400, "Completed!");
-    this.addChatbotLine(1500, "Hi! Let's have a conversation!");
+    this.addChatbotLine(1500, "Hi! Let's have a conversation!", false);
     setTimeout(function() {
       view.showInput();
     }, 1550);
