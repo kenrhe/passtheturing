@@ -17,17 +17,17 @@ def parsePairs(file):
 
 	#qa pairs
 	cleanStr = re.sub(r'\d+[\n\r]+\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d', ' ', file)
-	results = re.findall(r'[\w][^!.<>?]+[?][^.!]+[.!]', cleanStr, re.M)
+	results = re.findall(r'[\w][^!.<>?]*[?][^.!]+[.!]', cleanStr, re.M)
 	
 	#split off questions, remove newlines, trailing dashes and whitespace
 	results = [re.split(r'[?]', result, 1, re.M) for result in results]
 	questions = [re.sub(r'[\s]+', ' ', question[0] + '?').lstrip() for question in results]
-	questions = [re.findall(r'[\w][^!.<>?]+[?]', question, re.M)[0].lstrip() for question in questions]
+	questions = [re.findall(r'[\w][^!.<>?]*[?]', question, re.M)[0].lstrip() for question in questions]
 
 	#find answers in latter half of split, remove newlines, trailing dashes and whitespace
-	answers = [re.findall(r'[\w][^!.<>?]+[.!]', answer[1], re.M) for answer in results]
+	answers = [re.findall(r'[\w][^!.<>?]*[.!]', answer[1], re.M) for answer in results]
 	answers = [re.sub(r'[\s]+', ' ', answer[0]).lstrip() for answer in answers]
-	answers = [re.findall(r'[\w][^!.<>?]+[.!]', answer, re.M)[0].lstrip() for answer in answers]
+	answers = [re.findall(r'[\w][^!.<>?]*[.!]', answer, re.M)[0].lstrip() for answer in answers]
 	
 	#fill dict
 	for i in range(0, len(questions)):
