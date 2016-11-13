@@ -13,6 +13,15 @@ import sys
 @app.route('/submit', methods=["GET"])
 def submit():
     query = str(request.args.get('query'))
+
+    resp = _submit(query)
+    response = resp["response"]
+    _id = resp["_id"]
+    isDefault = resp["isDefault"]
+
+    return jsonify(success=True, response=response, id=_id, isDefault=isDefault)
+
+def _submit(query):
     query_clean = query.translate(None, string.punctuation).lower().strip()
 
     a = db.dialogue.find_one({"query_clean": query_clean})
@@ -45,12 +54,14 @@ def submit():
         id = a['responses'][0][1]
         isDefault = False
 
-    return jsonify(success=True, response=response, id=id, isDefault=isDefault)
+    return {"_id" : id, "response" : response, "isDefault" : isDefault}
 
 @app.route('/sms/request', methods=["POST"])
 def sms_request():
     query = request.form['Body']
     sys.stderr.write(str(query))
+    resp = _submit(query)
+    return resp['response']
 
 def send_sms(to_number, body):
     account_sid = app.config['TWILIO_ACCOUNT_SID']
