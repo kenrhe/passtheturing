@@ -2,6 +2,7 @@ var chatbot = null;
 var chatbotResponseNumber = 0;
 var chatbotResponseIds = {};
 var start = null;
+var asked = false;
 
 $(document).ready(function() {
   controllers.startTimer();
@@ -27,20 +28,23 @@ $(document).ready(function() {
 var controllers = {
   startTimer: function() {
     window.setInterval(function() {
-      if (new Date() - startTime > 20000) {
+      if (new Date() - startTime > 20000 && !asked) {
         return controllers.askQuestion();
       }
     }, 1000);
   },
   askQuestion: function() {
-    startTime = new Date();
+    asked = true;
     $.getJSON('/question', {}, function(data) {
+      startTime = new Date();
+      asked = false;
       controllers.addId(data.id);
       view.addResponse(data.response, !data.isDefault);   
     });
   },
   submitQuery: function() {
     startTime = new Date();
+    asked = false;
     var query = $("#input").text();
     view.addQuery(query);
     // if (query.substring(0, 8) === "(chatbot") {
