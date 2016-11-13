@@ -1,7 +1,6 @@
 var chatbot = null;
 
 $(document).ready(function() {
-  view.focusInput();
   controllers.loadChatbot("Alan");
   $("#input").on("keydown", function(event) {
     if (event.keyCode === 13) {
@@ -12,9 +11,9 @@ $(document).ready(function() {
   $("#output").on("click", "i", function() {
     var id = this.id;
     if (id.substring(0, 2) === "up") {
-      return controllers.upvote(id.substring(2 , id.length));
+      controllers.upvote(id.substring(2 , id.length));
     } else {
-      return controllers.downvote(id.substring(4, id.length));
+      controllers.downvote(id.substring(4, id.length));
     }
   });
 });
@@ -102,25 +101,33 @@ var view = {
     }, delay);
   },
   addQuery: function(query) {
+    this.blurInput();
     this.addUserLine(0, query);
     this.clearInput();
-    this.blurInput();
   },
   addResponse: function(response, id) {
     this.addChatbotLine(0, response, id);
     this.focusInput();
   },
   loadChatbot: function() {
+    this.blurInput();
     this.addSystemLine(50, "Loading modules.....");
     this.addSystemLine(100, "Initializing semantic network.....");
     this.addSystemLine(1000, "Creating sandbox.....");
     this.addSystemLine(1400, "Completed!");
     this.addChatbotLine(1500, "Hi! Let's have a conversation!");
+    setTimeout(function() {
+      view.focusInput();
+    }, 1550);
   },
   quitChatbot: function() {
+    this.blurInput();
     this.addSystemLine(100, "Exiting sandbox.....");
     this.addSystemLine(400, "Exiting semantic network.....");
     this.addSystemLine(1100, "Completed!");
+    setTimeout(function() {
+      view.focusInput();
+    }, 1150);
   },
   upvote: function(id) {
     $("$up" + id).addClass("yellow");
