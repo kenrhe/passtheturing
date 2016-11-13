@@ -15,9 +15,12 @@ def submit():
     query_clean = query.translate(None, string.punctuation).lower().strip()
 
     a = db.dialogue.find_one({"query_clean": query_clean})
+    b = db.dialogue.find_one({"responses.$.2" : query_clean})
 
     if a == None:
         a = db.dialogue.find_one({"$text": {"$search": query_clean}})
+        if b:
+            response = db.dialogue.find_one({"query": b})
         if a == None:
             response = "What do you mean?"
             id = None
@@ -26,6 +29,7 @@ def submit():
             response = a['responses'][0][0]
             id = a['responses'][0][1]
             isDefault = False
+
     else:
         response = a['responses'][0][0]
         id = a['responses'][0][1]
