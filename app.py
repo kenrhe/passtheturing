@@ -21,9 +21,9 @@ def submit():
         _id = None
     else:
         response = a['responses'][0][0]
-        _id = a._id
+        id = a['_id']
 
-    return jsonify(success=True, response=response, _id=_id)
+    return jsonify(success=True, response=response, id=id)
 
 @app.route('/upvote', methods=["GET"])
 def upvote():
@@ -35,7 +35,7 @@ def upvote():
 @app.route('/downvote', methods=["GET"])
 def downvote():
     id = str(request.arg.get('id'))
-    a = db.dialogue.find_one({"id": id})
+    a = db.dialogue.find_one({"_id": id})
 
     return jsonify(success=True)
 

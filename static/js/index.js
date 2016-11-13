@@ -1,4 +1,6 @@
 var chatbot = null;
+var chatbotResponseNumber = 0;
+var chatbotResponseIds = {};
 
 $(document).ready(function() {
   controllers.loadChatbot("Alan");
@@ -39,7 +41,8 @@ var controllers = {
       $.getJSON('/submit', {
         query: query
       }, function(data) {
-        view.addResponse(data.response, data._id);
+        controllers.addId(data.id);
+        view.addResponse(data.response);
       });
     // } else {
       // return view.addSystemLine(0, "No current chatbot");
@@ -53,18 +56,22 @@ var controllers = {
     chatbot = null;
     view.quitChatbot();
   },
-  upvote: function(id) {
+  addId: function(id) {
+    chatbotResponseNumber++;
+    chatBotResponseIds.chatbotResponseNumber = id;
+  },
+  upvote: function(chatbotResponseNumber) {
     $.getJSON('/upvote', {
-      id: id
+      id: chatBotResponseIds[chatbotResponseNumber]
     }, function() {
-      view.upvote(id);
+      view.upvote(chatbotResponseNumber);
     });
   },
-  downvote: function(id) {
+  downvote: function(chatbotResponseNumber) {
     $.getJSON('/downvote', {
-      id: id
+      id: chatBotResponseIds[chatbotResponseNumber]
     }, function() {
-      view.downvote(id);
+      view.downvote(chatbotResponseNumber);
     });
   }
 };
@@ -84,13 +91,13 @@ var view = {
   },
   addUserLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>user$ &zwnj;<span class='yellow'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>you$ &zwnj;<span class='yellow'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
-  addChatbotLine: function(delay, message, id) {
+  addChatbotLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + id + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + id + "'></i></div>");
+      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + id + "'></i></div>");
       view.scrollToBottom();
     }, delay);
   },
@@ -105,8 +112,8 @@ var view = {
     this.addUserLine(0, query);
     this.clearInput();
   },
-  addResponse: function(response, id) {
-    this.addChatbotLine(0, response, id);
+  addResponse: function(response) {
+    this.addChatbotLine(0, response);
     this.focusInput();
   },
   loadChatbot: function() {
@@ -129,12 +136,12 @@ var view = {
       view.focusInput();
     }, 1150);
   },
-  upvote: function(id) {
-    $("$up" + id).addClass("yellow");
-    $("$down" + id).removeClass("yellow");
+  upvote: function(chatbotResponseNumber) {
+    $("$up" + chatbotResponseNumber).addClass("yellow");
+    $("$down" + chatbotResponseNumber).removeClass("yellow");
   },
-  downvote: function(id) {
-    $("$down" + id).addClass("yellow");
-    $("$up" + id).removeClass("yellow");
+  downvote: function(chatbotResponseNumber) {
+    $("$down" + chatbotResponseNumber).addClass("yellow");
+    $("$up" + chatbotResponseNumber).removeClass("yellow");
   }
 };
