@@ -34,8 +34,8 @@ def get_question():
 
     a = list(a)[0]
 
-    response = a["responses"][0][0]
-    _id = a["responses"][0][1]
+    response = a["query"]
+    _id = a["query"]
     isDefault = False
 
     return jsonify(success=True, response=response, id=_id, isDefault=isDefault)
