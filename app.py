@@ -17,7 +17,7 @@ def submit():
     a = db.dialogue.find_one({"query_clean": query_clean})
 
     if a == None:
-        response = "I have no idea what you're saying."
+        response = "I'm not sure as to what you are saying. Can you try another phrase?"
         _id = None
     else:
         response = a['responses'][0][0]
@@ -28,7 +28,7 @@ def submit():
 @app.route('/upvote', methods=["GET"])
 def upvote():
     id = str(request.arg.get('id'))
-    a = db.dialogue.find_one({"id": id})
+    a = db.dialogue.find_one({"_id": id})
 
     return jsonify(success=True)
 
