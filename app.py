@@ -1,5 +1,6 @@
 from flask import render_template, request, send_from_directory, jsonify
 from config import app, db
+import twilio
 
 import os
 import string
@@ -44,6 +45,19 @@ def submit():
         isDefault = False
 
     return jsonify(success=True, response=response, id=id, isDefault=isDefault)
+
+@app.route('/sms/request', methods=["POST"])
+def sms_request():
+    query = request.form['Body']
+
+def send_sms(to_number, body):
+    account_sid = app.config['TWILIO_ACCOUNT_SID']
+    auth_token = app.config['TWILIO_AUTH_TOKEN']
+    twilio_number = app.config['TWILIO_NUMBER']
+    client = twilio.rest.Client(account_sid, auth_token)
+    client.messages.create(to_number,
+                           from_=twilio_number,
+                           body=body)    
 
 @app.route('/upvote', methods=["GET"])
 def upvote():

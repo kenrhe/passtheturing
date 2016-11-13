@@ -8,15 +8,17 @@ app.config['DEBUG'] = os.environ.get('DEBUG', True)
 try:
     app.config.from_pyfile("dev_config.cfg")
 
-    mc = MongoClient(app.config['MONGODB_URI'])
+    mc = MongoClient(app.config["MONGODB_URI"])
     db = mc.passtheturing
 
     print(">>> Development configuration file loaded.")
 except:
     #======================================
-    # Try to get amazon ec2 container tags
+    # Load Heroku Environment Variables
     #======================================
-    MONGO_URL = os.environ.get('MONGODB_URI')
+    app.config.update(os.environ)
+
+    MONGO_URL = app.config["MONGODB_URI"]
 
     mc = MongoClient(MONGO_URL)
     db = mc.passtheturing
