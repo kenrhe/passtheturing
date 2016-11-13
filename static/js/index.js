@@ -58,18 +58,18 @@ var controllers = {
   },
   addId: function(id) {
     chatbotResponseNumber++;
-    chatBotResponseIds.chatbotResponseNumber = id;
+    chatbotResponseIds.chatbotResponseNumber = id;
   },
   upvote: function(chatbotResponseNumber) {
     $.getJSON('/upvote', {
-      id: chatBotResponseIds[chatbotResponseNumber]
+      id: chatbotResponseIds[chatbotResponseNumber]
     }, function() {
       view.upvote(chatbotResponseNumber);
     });
   },
   downvote: function(chatbotResponseNumber) {
     $.getJSON('/downvote', {
-      id: chatBotResponseIds[chatbotResponseNumber]
+      id: chatbotResponseIds[chatbotResponseNumber]
     }, function() {
       view.downvote(chatbotResponseNumber);
     });
@@ -89,6 +89,14 @@ var view = {
   blurInput: function() {
     $("#input").blur();
   },
+  showInput: function() {
+    $("#input-line").show();
+    view.focusInput();
+  },
+  hideInput: function() {
+    view.clearInput();
+    $("#input-line").hide();
+  },
   addUserLine: function(delay, message) {
     setTimeout(function() {
       $("#output").append("<div class='line'>you$ &zwnj;<span class='yellow'>" + message + "</span></div>");
@@ -97,7 +105,7 @@ var view = {
   },
   addChatbotLine: function(delay, message) {
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + id + "'></i></div>");
+      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i></div>");
       view.scrollToBottom();
     }, delay);
   },
@@ -108,40 +116,39 @@ var view = {
     }, delay);
   },
   addQuery: function(query) {
-    this.blurInput();
+    this.hideInput();
     this.addUserLine(0, query);
-    this.clearInput();
   },
   addResponse: function(response) {
     this.addChatbotLine(0, response);
-    this.focusInput();
+    this.showInput();
   },
   loadChatbot: function() {
-    this.blurInput();
+    this.hideInput();
     this.addSystemLine(50, "Loading modules.....");
     this.addSystemLine(100, "Initializing semantic network.....");
     this.addSystemLine(1000, "Creating sandbox.....");
     this.addSystemLine(1400, "Completed!");
     this.addChatbotLine(1500, "Hi! Let's have a conversation!");
     setTimeout(function() {
-      view.focusInput();
+      view.showInput();
     }, 1550);
   },
   quitChatbot: function() {
-    this.blurInput();
+    this.hideInput();
     this.addSystemLine(100, "Exiting sandbox.....");
     this.addSystemLine(400, "Exiting semantic network.....");
     this.addSystemLine(1100, "Completed!");
     setTimeout(function() {
-      view.focusInput();
+      view.showInput();
     }, 1150);
   },
   upvote: function(chatbotResponseNumber) {
-    $("$up" + chatbotResponseNumber).addClass("yellow");
-    $("$down" + chatbotResponseNumber).removeClass("yellow");
+    $("#up" + chatbotResponseNumber).addClass("yellow");
+    $("#down" + chatbotResponseNumber).removeClass("yellow");
   },
   downvote: function(chatbotResponseNumber) {
-    $("$down" + chatbotResponseNumber).addClass("yellow");
-    $("$up" + chatbotResponseNumber).removeClass("yellow");
+    $("#down" + chatbotResponseNumber).addClass("yellow");
+    $("#up" + chatbotResponseNumber).removeClass("yellow");
   }
 };

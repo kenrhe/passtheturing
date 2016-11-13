@@ -17,25 +17,31 @@ def submit():
     a = db.dialogue.find_one({"query_clean": query_clean})
 
     if a == None:
-        response = "I have no idea what you're saying."
+        response = "I'm sorry, I don't quite understand."
         id = None
     else:
         response = a['responses'][0][0]
-        id = a['_id']
+        id = a['responses'][0][1]
 
     return jsonify(success=True, response=response, id=id)
 
 @app.route('/upvote', methods=["GET"])
 def upvote():
-    id = str(request.arg.get('id'))
-    a = db.dialogue.find_one({"_id": id})
+    id = str(request.args.get('id'))
+    a = db.dialogue.find_one({"response.2": id})
+
+    if a:
+        a.update({}, {"$set": {"response.1": existing + 1}})
 
     return jsonify(success=True)
 
 @app.route('/downvote', methods=["GET"])
 def downvote():
-    id = str(request.arg.get('id'))
-    a = db.dialogue.find_one({"_id": id})
+    id = str(request.args.get('id'))
+    a = db.dialogue.find_one({"response.1": id})
+
+    if a:
+        a.update({}, {"$set": {"response.1": existing - 1}})
 
     return jsonify(success=True)
 
