@@ -74,6 +74,6 @@ def clean_input(s):
 
 #testCase
 # parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
-for i in range(19, 20):
+for i in range(1, 23):
 	print("on movie script #" + str(i))
-	parseZip('subs/movie' + str(i) + '.zip')
+	parseTxt('subs/movie' + str(i) + '.txt')
