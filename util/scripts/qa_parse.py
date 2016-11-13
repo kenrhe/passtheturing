@@ -8,7 +8,6 @@ URI = "mongodb://admin:alanturing9448@ds151707.mlab.com:51707/passtheturing"
 mc = MongoClient(URI)
 db = mc.passtheturing
 
-pairs = {}
 
 def parsePairs(file):
 	results = []
@@ -17,8 +16,8 @@ def parsePairs(file):
 
 	#qa pairs
 	cleanStr = re.sub(r'\d+[\n\r]+\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d', ' ', file)
-	results = re.findall(r'[\w][^!.<>?]*[?][^.!]+[.!]', cleanStr, re.M)
-	
+	results = re.findall(r'[\w][^!.<>?]*[?][^.!?<>]+[.!]', cleanStr, re.M)
+
 	#split off questions, remove newlines, trailing dashes and whitespace
 	results = [re.split(r'[?]', result, 1, re.M) for result in results]
 	questions = [re.sub(r'[\s]+', ' ', question[0] + '?').lstrip() for question in results]
@@ -28,10 +27,12 @@ def parsePairs(file):
 	answers = [re.findall(r'[\w][^!.<>?]*[.!]', answer[1], re.M) for answer in results]
 	answers = [re.sub(r'[\s]+', ' ', answer[0]).lstrip() for answer in answers]
 	answers = [re.findall(r'[\w][^!.<>?]*[.!]', answer, re.M)[0].lstrip() for answer in answers]
-	
+
+	pairs = {}
+
 	#fill dict
 	for i in range(0, len(questions)):
-		pairs[questions[i]] = answers[i];
+		pairs[questions[i]] = answers[i]
 
 	#print formatted pairs
 	for pair in pairs:
@@ -65,13 +66,14 @@ def parseZip(zipInput):
 		parsePairs(zip.read(zip.infolist()[0]))
 
 def parseTxt(txtInput):
-	with open(txtInput) as fileStream: 
+	with open(txtInput) as fileStream:
 		parseTxt(fileStream.read())
 
 def clean_input(s):
 	return s.translate(None, string.punctuation).lower().strip()
 
-#testCase		
+#testCase
 # parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
-parseZip('/Users/kennethrhee/projects/passtheturing/util/scripts/subs/StarWars6.zip')
-
+for i in range(19, 20):
+	print("on movie script #" + str(i))
+	parseZip('subs/movie' + str(i) + '.zip')

@@ -17,13 +17,13 @@ def submit():
     a = db.dialogue.find_one({"query_clean": query_clean})
 
     if a == None:
-        response = "I'm sorry, I don't quite understand."
+        response = "I'm not sure as to what you are saying. Can you try another phrase?"
         id = None
     else:
         response = a['responses'][0][0]
         id = a['responses'][0][1]
 
-    return jsonify(success=True, response=response, id=id)
+    return jsonify(success=True, response=response, id=str(id))
 
 @app.route('/upvote', methods=["GET"])
 def upvote():
