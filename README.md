@@ -5,7 +5,7 @@ The Turing Test with Movie Subtitle Data
 
 ## Getting Started
 
-Like the namesake implies, the Alan Chatbot returns human-like responses when the user converses with it. We wanted to make a bot where the user wouldn't be sure if they were talking to a human or a computer when conversing with our bot. We created a database of movie scripts by using regular expressions on movie subtitles, which found the questions and answers for us. The user input is then checked if it fully matches a question, if it matches an answer (in case the user types a statement), and then if it partially matches a question if all else fails. Alan would love to speak to you at http://passtheturing.herokuapp.com/ or 415-200-2524 (made with Twilio!)
+As the name implies, the Alan Chatbot returns human-like responses when the user converses with it. We wanted to make a bot where the user wouldn't be sure if they were talking to a human or a computer when conversing with our bot. We created a database of movie scripts by using regular expressions on movie subtitles, which found the questions and answers for us. The user input is then checked if it fully matches a question, if it matches an answer (in case the user types a statement), and then if it partially matches a question if all else fails. Alan would love to speak to you at http://passtheturing.herokuapp.com/ or 415-200-2524 (made with Twilio!)
 
 
 ## Built With
