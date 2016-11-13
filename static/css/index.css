@@ -55,10 +55,6 @@ i[id^=down] {
 	color: #FFA500;
 }
 
-.gray {
-  color: #D4D4D4;
-}
-
 @media (min-width: 1000px) {
   body {
     font-size: 1em;
