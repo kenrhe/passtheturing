@@ -67,13 +67,13 @@ def parseZip(zipInput):
 
 def parseTxt(txtInput):
 	with open(txtInput) as fileStream:
-		parseTxt(fileStream.read())
+		parsePairs(fileStream.read())
 
 def clean_input(s):
 	return s.translate(None, string.punctuation).lower().strip()
 
 #testCase
 # parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
-for i in range(1, 23):
+for i in range(20, 22):
 	print("on movie script #" + str(i))
-	parseTxt('subs/movie' + str(i) + '.txt')
+	parseTxt('subs/friends' + str(i) + '.txt')
