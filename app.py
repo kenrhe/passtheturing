@@ -23,7 +23,7 @@ def submit():
         response = a['responses'][0][0]
         id = a['_id']
 
-    return jsonify(success=True, response=response, id=id)
+    return jsonify(success=True, response=response, id=str(id))
 
 @app.route('/upvote', methods=["GET"])
 def upvote():
