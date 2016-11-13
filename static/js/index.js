@@ -14,15 +14,6 @@ $(document).ready(function() {
       controllers.submitQuery();
     }
   });
-  $("#output").on("click", "i", function() {
-    var id = this.id;
-    if (id.substring(0, 2) === "up") {
-      controllers.upvote(id.substring(2 , id.length));
-    } else {
-      controllers.downvote(id.substring(4, id.length));
-    }
-    view.focusInput();
-  });
 });
 
 var controllers = {
@@ -47,6 +38,7 @@ var controllers = {
     asked = false;
     var query = $("#input").text();
     view.addQuery(query);
+<<<<<<< HEAD
     // if (query.substring(0, 8) === "(chatbot") {
     //   if (!chatbot) {
     //     return this.loadChatbot(query.substring(9, query.length - 1));
@@ -79,25 +71,20 @@ var controllers = {
   quitChatbot: function() {
     chatbot = null;
     view.quitChatbot();
+=======
+    view.addResponseProcessing();
+    $.getJSON('/submit', {
+      query: query
+    }, function(data) {
+      controllers.addId(data.id);
+      view.addResponse(data.response);      
+    });
+>>>>>>> 773ef084b782ebae8fa12ba5cbb590cc1d9510c4
   },
   addId: function(id) {
     chatbotResponseNumber++;
     chatbotResponseIds.chatbotResponseNumber = id;
   },
-  upvote: function(chatbotResponseNumber) {
-    $.getJSON('/upvote', {
-      id: chatbotResponseIds[chatbotResponseNumber]
-    }, function() {
-      view.upvote(chatbotResponseNumber);
-    });
-  },
-  downvote: function(chatbotResponseNumber) {
-    $.getJSON('/downvote', {
-      id: chatbotResponseIds[chatbotResponseNumber]
-    }, function() {
-      view.downvote(chatbotResponseNumber);
-    });
-  }
 };
 
 var view = {
@@ -135,6 +122,7 @@ var view = {
       view.scrollToBottom();
     }, delay);
   },
+<<<<<<< HEAD
   addChatbotLine: function(delay, message, hasButtons) {
     setTimeout(function() {
       $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
@@ -145,8 +133,11 @@ var view = {
     }, delay);
   },
   addSystemLine: function(delay, message) {
+=======
+  addChatbotLine: function(delay, message) {
+>>>>>>> 773ef084b782ebae8fa12ba5cbb590cc1d9510c4
     setTimeout(function() {
-      $("#output").append("<div class='line'>system$&zwnj;<span class='orange'>" + message + "</span></div>");
+      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
   },
@@ -155,15 +146,17 @@ var view = {
     this.addUserLine(0, query);
   },
   addResponseProcessing: function() {
-    this.addChatbotLine(0, "Alan is reading the message", false);
+    this.addChatbotLine(0, "Alan is reading the message");
   },
-  addResponse: function(response, hasButtons) {
+  addResponse: function(response) {
     var length = response.length * 100;
+    var max = Math.max(3000, length);
     setTimeout(function() {
       $("#output div:last").remove();
     }, 1500);
-    this.addChatbotLine(1500, "Alan is typing...", false);
+    this.addChatbotLine(1500, "Alan is typing...");
     setTimeout(function() {
+<<<<<<< HEAD
       $("#output div:last").remove();
     }, Math.max(3000, length));
     this.addChatbotLine(Math.max(3000, length), response, hasButtons);
@@ -198,5 +191,13 @@ var view = {
   downvote: function(chatbotResponseNumber) {
     $("#down" + chatbotResponseNumber).addClass("yellow");
     $("#up" + chatbotResponseNumber).removeClass("yellow");
+=======
+      $("#output div:last").empty();
+    }, max);
+    this.addChatbotLine(max, response);
+    setTimeout(function() {
+      view.enableInput();
+    }, max);
+>>>>>>> 773ef084b782ebae8fa12ba5cbb590cc1d9510c4
   }
 };
