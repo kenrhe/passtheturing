@@ -58,7 +58,7 @@ def _submit(query):
 
 @app.route('/sms/request', methods=["POST"])
 def sms_request():
-    query = request.form['Body']
+    query = str(request.form['Body'])
     sys.stderr.write(str(query))
     resp = _submit(query)
     return resp['response']
