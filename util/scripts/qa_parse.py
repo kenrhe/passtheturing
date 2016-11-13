@@ -16,7 +16,7 @@ def parsePairs(file):
 
 	#qa pairs
 	cleanStr = re.sub(r'\d+[\n\r]+\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d', ' ', file)
-	results = re.findall(r'[\w][^!.<>?]*[?][^.!]+[.!]', cleanStr, re.M)
+	results = re.findall(r'[\w][^!.<>?]*[?][^.!?<>]+[.!]', cleanStr, re.M)
 
 	#split off questions, remove newlines, trailing dashes and whitespace
 	results = [re.split(r'[?]', result, 1, re.M) for result in results]
@@ -37,7 +37,7 @@ def parsePairs(file):
 	#print formatted pairs
 	for pair in pairs:
 		print(pair, pairs[pair])
-"""
+
 		pair_clean = pair.translate(None, string.punctuation).lower().strip()
 
 		check_existing = db.dialogue.find_one({"query_clean" : pair_clean})
@@ -59,7 +59,7 @@ def parsePairs(file):
 		db.dialogue.insert({"query" : pair,
 							"query_type" : query_type,
 							"query_clean" : clean_input(pair),
-							"responses" : [[pairs[pair], 0, clean_input(pairs[pair]) ]] })"""
+							"responses" : [[pairs[pair], 0, clean_input(pairs[pair]) ]] })
 
 def parseZip(zipInput):
 	with zipfile.ZipFile(zipInput,'r') as zip:
@@ -74,4 +74,6 @@ def clean_input(s):
 
 #testCase
 # parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
-parseZip('subs/movie5.zip')
+for i in range(19, 20):
+	print("on movie script #" + str(i))
+	parseZip('subs/movie' + str(i) + '.zip')
