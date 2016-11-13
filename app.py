@@ -24,9 +24,8 @@ def submit():
     resp = get_response(query)
     response = resp["response"]
     _id = resp["_id"]
-    isDefault = resp["isDefault"]
 
-    return jsonify(success=True, response=response, id=_id, isDefault=isDefault)
+    return jsonify(success=True, response=response, id=_id)
 
 @app.route('/sms/request', methods=["POST"])
 def sms_request():
