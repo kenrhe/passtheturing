@@ -28,7 +28,7 @@ var controllers = {
   startTimer: function() {
     window.setInterval(function() {
       if (new Date() - startTime > 20000) {
-        return this.askQuestion();
+        return controllers.askQuestion();
       }
     }, 1000);
   },
