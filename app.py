@@ -1,6 +1,7 @@
 from flask import render_template, request, send_from_directory, jsonify
 from config import app, db
 from ai import get_response
+from twilio import twiml
 
 import twilio
 import os
@@ -32,7 +33,7 @@ def sms_request():
     query = str(request.form['Body'])
     resp = get_response(query)
 
-    response = twilio.twiml.Response()
+    response = twiml.Response()
     response.message(resp['response'])
 
     time.sleep(2)
