@@ -56,6 +56,18 @@ def _submit(query):
 
     return {"_id" : id, "response" : response, "isDefault" : isDefault}
 
+@app.route('/question', methods=["GET"])
+def get_question():
+
+    a = db.dialogue.aggregate([{'$sample': {'size': 1 }}])
+
+    response = a["responses"][0][0]
+    _id = a["responses"][0][1]
+    isDefault = False
+
+    return jsonify(success=True, response=response, id=_id, isDefault=isDefault)
+
+
 @app.route('/sms/request', methods=["POST"])
 def sms_request():
     query = str(request.form['Body'])
@@ -76,7 +88,7 @@ def send_sms(to_number, body):
     client = twilio.rest.Client(account_sid, auth_token)
     client.messages.create(to_number,
                            from_=twilio_number,
-                           body=body)    
+                           body=body)
 
 @app.route('/upvote', methods=["GET"])
 def upvote():
