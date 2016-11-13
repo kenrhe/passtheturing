@@ -49,6 +49,7 @@ def submit():
 @app.route('/sms/request', methods=["POST"])
 def sms_request():
     query = request.form['Body']
+    sys.stderr.write(str(query))
 
 def send_sms(to_number, body):
     account_sid = app.config['TWILIO_ACCOUNT_SID']

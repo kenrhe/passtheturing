@@ -10,7 +10,7 @@ try:
     mc = MongoClient(app.config["MONGODB_URI"])
     db = mc.passtheturing
 
-    print(">>> Development configuration file loaded.")
+    print ">>> Development configuration file loaded."
 except:
     #======================================
     # Load Heroku Environment Variables
@@ -22,4 +22,4 @@ except:
     mc = MongoClient(MONGO_URL)
     db = mc.passtheturing
 
-    print(">>> Production configuration file loaded. Debug: %s" % (str(app.config["DEBUG"])))
+    print ">>> Production configuration file loaded. Debug: %s" % (str(app.config["DEBUG"]))
