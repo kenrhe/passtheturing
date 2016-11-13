@@ -1,8 +1,9 @@
 body {
   background: #181818;
   font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
+  font-size: 1.5em;
   color: white;
-  margin: 3em;
+  margin: 2em;
   padding: 0;
 }
 
@@ -11,20 +12,35 @@ hr {
 }
 
 .line {
-	margin-top: 0.7em;
+	margin-top: 0.5em;
 }
 
 .line span {
-  padding-left: 0.8em;
+  padding-left: 0.5em;
 }
 
 #input:focus {
 	outline: none;
 }
 
+.buttons {
+  float: left;
+  width: 100%;
+  padding: 0.8em 0;
+  font-size: 2em;
+}
+
 i {
-  padding-left: 1.5em;
   cursor: pointer;
+}
+
+i[id^=up] {
+  padding-left: 5em;
+}
+
+i[id^=down] {
+  padding-right: 5em;
+  float: right;
 }
 
 .green {
@@ -37,4 +53,34 @@ i {
 
 .orange {
 	color: #FFA500;
+}
+
+@media (min-width: 1000px) {
+  body {
+    font-size: 1em;
+    margin: 3em;
+  }
+
+  .buttons {
+    float: none;
+    display: inline;
+    font-size: 1em;
+  }
+
+  .line {
+    margin-top: 0.7em;
+  }
+
+  .line span {
+    padding-left: 0.8em;
+  }
+
+  i[id^=up] {
+    padding-left: 1.5em;
+  }
+
+  i[id^=down] {
+    padding-left: 1.5em;
+    float: none;
+  }
 }

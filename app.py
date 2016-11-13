@@ -22,7 +22,7 @@ def submit():
         if b:
             response = db.dialogue.find_one({"query": b})
         if a == None:
-            response = "wat"
+            response = "What do you mean?"
             id = None
             isDefault = True
         else:
