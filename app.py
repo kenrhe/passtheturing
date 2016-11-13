@@ -1,8 +1,3 @@
-'''
-Authored by: Kenneth Rhee, Hak Joon Lee, Joe Goodman
-Email: kennethhrhee@gmail.com, thejoonshow@gmail.com, goodman.a.joseph@gmail.com
-'''
-
 from flask import render_template, request, send_from_directory, jsonify
 from config import app, db
 
@@ -19,14 +14,14 @@ def submit():
     query = str(request.args.get('query'))
     query_clean = query.translate(None, string.punctuation).lower().strip()
 
-    a = db.dialogue.find_one({"query_clean" : query_clean})
-    _id = None
+    a = db.dialogue.find_one({"query_clean": query_clean})
 
     if a == None:
         response = "I have no idea what you're saying."
+        _id = None
     else:
-        _id = a["_id"]
         response = a['responses'][0][0]
+        _id = a._id
 
     return jsonify(success=True, response=response, _id=_id)
 
@@ -34,7 +29,7 @@ def submit():
 def upvote():
     id = str(request.arg.get('id'))
     a = db.dialogue.find_one({"id": id})
-    
+
     return jsonify(success=True)
 
 @app.route('/downvote', methods=["GET"])
