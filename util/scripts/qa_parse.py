@@ -50,8 +50,9 @@ def parsePairs(file):
 		if check_existing != None:
 			update = True
 			for response in check_existing['responses']:
-				if clean(pairs[pair]) == response[2]:
+				if clean_input(pairs[pair]) == response[2]:
 					update = False
+					print "NOT UPDATING THIS ONE"
 			if update:
 				db.dialogue.update({"query_clean" : pair_clean}, {"$push" : {"responses" : [pairs[pair], 0, clean_input(pairs[pair])]}})
 
@@ -77,5 +78,6 @@ def clean_input(s):
 	return s.translate(None, string.punctuation).lower().strip()
 
 #testCase		
-parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
+# parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
+parseZip('/Users/kennethrhee/projects/passtheturing/util/scripts/subs/StarWars6.zip')
 
