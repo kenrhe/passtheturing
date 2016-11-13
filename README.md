@@ -18,15 +18,15 @@ Like the namesake implies, the Alan Chatbot returns human-like responses when th
 ## Authors
 
 
-* **Kenneth Rhee**, [kenrhe](https://www.github.com/kenrhe "Kenneth Rhee's Github")
+* **Kenneth Rhee** - [kenrhe](https://www.github.com/kenrhe "Kenneth Rhee's Github")
 
-* **Thomas Munduchira**, [thomasmunduchira](https://www.github.com/thomasmunduchira "Thomas Munduchira's Github")
+* **Thomas Munduchira** - [thomasmunduchira](https://www.github.com/thomasmunduchira "Thomas Munduchira's Github")
 
-* **Vincent Cheng**, [vrcheng](https://www.github.com/vrcheng "Vincent Cheng's Github")
+* **Vincent Cheng** - [vrcheng](https://www.github.com/vrcheng "Vincent Cheng's Github")
 
-* **Eliot Winchell**, [eliotwinchell](https://www.gitub.com/eliotwinchell "Eliot Winchell's Github")
+* **Eliot Winchell** - [eliotwinchell](https://www.gitub.com/eliotwinchell "Eliot Winchell's Github")
 
-* **Salman Bana**, [glaceon0](https://www.github.com/glaceon0 "Salman Bana's Github")
+* **Salman Bana** - [glaceon0](https://www.github.com/glaceon0 "Salman Bana's Github")
 
 
 ## License
