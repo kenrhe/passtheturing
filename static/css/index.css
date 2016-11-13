@@ -10,6 +10,10 @@ body {
 	margin-top: 0.7em;
 }
 
+.line span {
+  padding-left: 0.8em;
+}
+
 #input:focus {
 	outline: none;
 }

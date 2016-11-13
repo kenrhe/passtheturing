@@ -19,11 +19,13 @@ def submit():
     if a == None:
         response = "I'm not sure as to what you are saying. Can you try another phrase?"
         id = None
+        isDefault = True
     else:
         response = a['responses'][0][0]
         id = a['responses'][0][1]
+        isDefault = False
 
-    return jsonify(success=True, response=response, id=str(id))
+    return jsonify(success=True, response=response, id=id, isDefault=isDefault)
 
 @app.route('/upvote', methods=["GET"])
 def upvote():
