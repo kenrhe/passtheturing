@@ -16,28 +16,18 @@ def parsePairs(file):
 	responses = []
 
 	#qa pairs
-	results = re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[?][^.!]+[.!]', file, re.M)
+	cleanStr = re.sub(r'\d+[\n\r]+\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d', ' ', file)
+	results = re.findall(r'[\w][^!.<>?]*[?][^.!]+[.!]', cleanStr, re.M)
 	
 	#split off questions, remove newlines, trailing dashes and whitespace
 	results = [re.split(r'[?]', result, 1, re.M) for result in results]
-	questions = [re.sub(r'[\n\r]+', ' ', question[0] + '?').lstrip() for question in results]
-	questions = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[?]', question, re.M) for question in questions]
-	for question in questions:
-		if len(question) == 0:
-			question.append("SFj;SPIFHPISFHSPFHSPFHSOGN:LWOGIPWGBPIWGBIPWGBWGW?")
-	questions = [question[0].lstrip() for question in questions]
+	questions = [re.sub(r'[\s]+', ' ', question[0] + '?').lstrip() for question in results]
+	questions = [re.findall(r'[\w][^!.<>?]*[?]', question, re.M)[0].lstrip() for question in questions]
 
 	#find answers in latter half of split, remove newlines, trailing dashes and whitespace
-	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer[1], re.M) for answer in results]
-	for answer in answers:
-		if len(answer) == 0:
-			answer.append("Lol.")
-	answers = [re.sub(r'[\n\r]+', ' ', answer[0]).lstrip() for answer in answers]
-	answers = [re.findall(r'[A-Za-z,;\'\"\\\s]+-*[A-Za-z,;\'\"\\\s]+[.!]', answer, re.M) for answer in answers]
-	for answer in answers:
-		if len(answer) == 0:
-			answer.append("Lol.")
-	answers = [answer[0].lstrip() for answer in answers]
+	answers = [re.findall(r'[\w][^!.<>?]*[.!]', answer[1], re.M) for answer in results]
+	answers = [re.sub(r'[\s]+', ' ', answer[0]).lstrip() for answer in answers]
+	answers = [re.findall(r'[\w][^!.<>?]*[.!]', answer, re.M)[0].lstrip() for answer in answers]
 	
 	#fill dict
 	for i in range(0, len(questions)):
@@ -54,8 +44,9 @@ def parsePairs(file):
 		if check_existing != None:
 			update = True
 			for response in check_existing['responses']:
-				if clean(pairs[pair]) == response[2]:
+				if clean_input(pairs[pair]) == response[2]:
 					update = False
+					print "NOT UPDATING THIS ONE"
 			if update:
 				db.dialogue.update({"query_clean" : pair_clean}, {"$push" : {"responses" : [pairs[pair], 0, clean_input(pairs[pair])]}})
 
@@ -81,5 +72,6 @@ def clean_input(s):
 	return s.translate(None, string.punctuation).lower().strip()
 
 #testCase		
-parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
+# parseZip('C:/Users/Vincent/Desktop/Turing/passtheturing/util/scripts/subs/StarWars6.zip')
+parseZip('/Users/kennethrhee/projects/passtheturing/util/scripts/subs/StarWars6.zip')
 
