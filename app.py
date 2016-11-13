@@ -17,8 +17,8 @@ def submit():
     a = db.dialogue.find_one({"query_clean": query_clean})
 
     if a == None:
-        response = "I have no idea what you're saying."
-        id = None
+        response = "I'm not sure as to what you are saying. Can you try another phrase?"
+        _id = None
     else:
         response = a['responses'][0][0]
         id = a['_id']
