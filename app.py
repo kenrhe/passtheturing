@@ -31,7 +31,6 @@ def submit():
             response = db.dialogue.find_one({"query": b})
         if a == None:
             response = "What do you mean?"
->>>>>>> 435efe0c7f8451984da16cbd2d4f2fbc4c161bcf
             id = None
             isDefault = True
 
