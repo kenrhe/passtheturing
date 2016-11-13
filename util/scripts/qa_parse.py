@@ -16,7 +16,7 @@ def parsePairs(file):
 
 	#qa pairs
 	cleanStr = re.sub(r'\d+[\n\r]+\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d', ' ', file)
-	results = re.findall(r'[\w][^!.<>?]*[?][^.!]+[.!]', cleanStr, re.M)
+	results = re.findall(r'[\w][^!.<>?]*[?][^.!?<>]+[.!]', cleanStr, re.M)
 
 	#split off questions, remove newlines, trailing dashes and whitespace
 	results = [re.split(r'[?]', result, 1, re.M) for result in results]
