@@ -16,7 +16,8 @@ except:
     #======================================
     # Load Heroku Environment Variables
     #======================================
-    app.config.from_object(os.environ)
+    app.config["MONGODB_URI"] = os.environ["MONGODB_URI"]
+
     MONGO_URL = app.config["MONGODB_URI"]
 
     mc = MongoClient(MONGO_URL)
