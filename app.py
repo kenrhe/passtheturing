@@ -9,23 +9,14 @@ import string
 #===================================
 # Routes ####
 #===================================
-@app.route("/submit", methods=["GET"])
+@app.route('/submit', methods=["GET"])
 def submit():
-    query = str(request.args.get("query"))
+    query = str(request.args.get('query'))
     query_clean = query.translate(None, string.punctuation).lower().strip()
 
     a = db.dialogue.find_one({"query_clean": query_clean})
-    b = db.dialogue.find_one({"query_clean": query_clean})['responses'][0][2]
 
     if a == None:
-        if b == None:
-            response = "I'm not sure as to what you are saying. Can you try another phrase?"
-            id = None
-        else:
-            response = b["query_clean"]
-    else:
-        response = a["responses"][0][0]
-        id = a["responses"][0][1]
         a = db.dialogue.find_one({"$text": {"$search": query_clean}})
         if a == None:
             response = "I'm not sure as to what you are saying. Can you try another phrase?"
@@ -42,9 +33,9 @@ def submit():
 
     return jsonify(success=True, response=response, id=id, isDefault=isDefault)
 
-@app.route("/upvote", methods=["GET"])
+@app.route('/upvote', methods=["GET"])
 def upvote():
-    id = str(request.args.get("id"))
+    id = str(request.args.get('id'))
     a = db.dialogue.find_one({"response.2": id})
 
     if a:
