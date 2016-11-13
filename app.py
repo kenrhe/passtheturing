@@ -19,7 +19,7 @@ def submit():
     if a == None:
         a = db.dialogue.find_one({"$text": {"$search": query_clean}})
         if a == None:
-            response = "I'm not sure as to what you are saying. Can you try another phrase?"
+            response = "What do you mean?"
             id = None
             isDefault = True
         else:
