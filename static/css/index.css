@@ -6,6 +6,10 @@ body {
   padding: 0;
 }
 
+hr {
+  margin-bottom: 1.5em;
+}
+
 .line {
 	margin-top: 0.7em;
 }

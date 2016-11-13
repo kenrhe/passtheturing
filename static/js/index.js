@@ -84,19 +84,19 @@ var view = {
   clearInput: function() {
     $("#input").text("");
   },
-  focusInput: function() {
-    $("#input").focus();
-  },
   blurInput: function() {
     $("#input").blur();
   },
-  showInput: function() {
-    $("#input-line").show();
-    view.focusInput();
+  focusInput: function() {
+    $("#input").focus();
   },
   hideInput: function() {
     view.clearInput();
-    $("#input-line").hide();
+    $("#input-line").css("visibility", "hidden");
+  },
+  showInput: function() {
+    $("#input-line").css("visibility", "visible");
+    view.focusInput();
   },
   addUserLine: function(delay, message) {
     setTimeout(function() {
@@ -120,12 +120,13 @@ var view = {
     }, delay);
   },
   addQuery: function(query) {
-    this.hideInput();
+    this.clearInput();
+    this.blurInput();
     this.addUserLine(0, query);
   },
   addResponse: function(response, hasButtons) {
     this.addChatbotLine(0, response, hasButtons);
-    this.showInput();
+    this.focusInput();
   },
   loadChatbot: function() {
     this.hideInput();
@@ -133,7 +134,7 @@ var view = {
     this.addSystemLine(100, "Initializing semantic network.....");
     this.addSystemLine(1000, "Creating sandbox.....");
     this.addSystemLine(1400, "Completed!");
-    this.addChatbotLine(1500, "Hi! Let's have a conversation!", false);
+    this.addChatbotLine(1500, "Hey! How're you doing today?", false);
     setTimeout(function() {
       view.showInput();
     }, 1550);
