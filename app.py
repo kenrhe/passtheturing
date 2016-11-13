@@ -61,6 +61,8 @@ def get_question():
 
     a = db.dialogue.aggregate([{'$sample': {'size': 1 }}])
 
+    a = list(a)[0]
+
     response = a["responses"][0][0]
     _id = a["responses"][0][1]
     isDefault = False
