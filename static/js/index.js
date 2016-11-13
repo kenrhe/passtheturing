@@ -44,7 +44,9 @@ var controllers = {
         query: query
       }, function(data) {
         controllers.addId(data.id);
-        view.addResponse(data.response, !data.isDefault);
+        setTimeout(function() {
+          view.addResponse(data.response, !data.isDefault);      
+        }, 2000);
       });
     // } else {
       // return view.addSystemLine(0, "No current chatbot");
@@ -126,8 +128,13 @@ var view = {
     this.addUserLine(0, query);
   },
   addResponse: function(response, hasButtons) {
-    this.addChatbotLine(0, response, hasButtons);
-    this.focusInput();
+    var length = response.length * 100;
+    this.addChatbotLine(0, "Alan is typing...", false);
+    setTimeout(function() {
+      $("#output div:last").empty();
+      view.addChatbotLine(0, response, hasButtons);
+      view.focusInput();
+    }, 2000 + (0.25 * length + 50));
   },
   loadChatbot: function() {
     this.hideInput();
