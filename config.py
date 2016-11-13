@@ -16,7 +16,7 @@ except:
     #======================================
     # Load Heroku Environment Variables
     #======================================
-    app.config["MONGODB_URI"] = os.environ["MONGODB_URI"]
+    app.config.update(os.environ)
 
     MONGO_URL = app.config["MONGODB_URI"]
 
