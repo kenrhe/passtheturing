@@ -28,7 +28,7 @@ var controllers = {
     asked = true;
     $.getJSON('/question', {}, function(data) {
       controllers.addId(data.id);
-      view.addResponse(data.response);
+      view.addQuestionResponse(data.response);
     });
   },
   submitQuery: function() {
@@ -88,9 +88,6 @@ var view = {
   addChatbotLine: function(delay, message, hasButtons) {
     setTimeout(function() {
       $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
-      // if (hasButtons) {
-      //   $("#output div:last").append("<div class='buttons'><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i></div>");
-      // }
       view.scrollToBottom();
     }, delay);
   },
@@ -114,5 +111,15 @@ var view = {
     setTimeout(function() {
       view.enableInput();
     }, Math.max(3000, length));
+  },
+  addQuestionResponse: function(response) {
+    this.addChatbotLine(0, "Alan is typing...");
+    setTimeout(function() {
+      $("#output div:last").remove();
+    }, Math.max(1500, length));
+    this.addChatbotLine(Math.max(1500, length), response);
+    setTimeout(function() {
+      view.enableInput();
+    }, Math.max(1500, length));
   }
 };
