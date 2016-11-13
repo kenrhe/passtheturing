@@ -16,7 +16,8 @@ except:
     #======================================
     # Try to get amazon ec2 container tags
     #======================================
-    MONGO_URL = os.environ.get('MONGODB_URI')
+    app.config.from_object(os.environ)
+    MONGO_URL = app.config["MONGODB_URI"]
 
     mc = MongoClient(MONGO_URL)
     db = mc.passtheturing
