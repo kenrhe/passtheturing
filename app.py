@@ -22,12 +22,18 @@ def submit():
     if a == None:
         a = db.dialogue.find_one({"$text": {"$search": query_clean}})
         if b:
+<<<<<<< HEAD
             response = b["query"]
             id = b["query"]
             isDefault=False
 
         elif (a == None):
             response = "wat"
+=======
+            response = db.dialogue.find_one({"query": b})
+        if a == None:
+            response = "What do you mean?"
+>>>>>>> 435efe0c7f8451984da16cbd2d4f2fbc4c161bcf
             id = None
             isDefault = True
 

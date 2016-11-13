@@ -108,7 +108,7 @@ var view = {
     setTimeout(function() {
       $("#output").append("<div class='line'>" + chatbot + "$&zwnj;<span class='green'>" + message + "</span></div>");
       if (hasButtons) {
-        $("#output div:last").append("<i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i>");
+        $("#output div:last").append("<div class='buttons'><i class='fa fa-thumbs-up' aria-hidden='true' id='up" + chatbotResponseNumber + "'></i><i class='fa fa-thumbs-down' aria-hidden='true' id='down" + chatbotResponseNumber + "'></i></div>");
       }
       view.scrollToBottom();
     }, delay);
