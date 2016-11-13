@@ -15,11 +15,12 @@ def submit():
     query_clean = query.translate(None, string.punctuation).lower().strip()
 
     a = db.dialogue.find_one({"query_clean": query_clean})
+    b = db.dialogue.find_one({"responses.$.2" : query_clean})
 
     if a == None:
         a = db.dialogue.find_one({"$text": {"$search": query_clean}})
         if a == None:
-            response = "I'm not sure as to what you are saying. Can you try another phrase?"
+            response = "wat"
             id = None
             isDefault = True
         else:
