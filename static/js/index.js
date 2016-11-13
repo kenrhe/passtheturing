@@ -40,13 +40,12 @@ var controllers = {
     //   }
     // }
     // if (chatbot) {
+      view.addResponseProcessing();
       $.getJSON('/submit', {
         query: query
       }, function(data) {
         controllers.addId(data.id);
-        setTimeout(function() {
-          view.addResponse(data.response, !data.isDefault);      
-        }, 2000);
+        view.addResponse(data.response, !data.isDefault);      
       });
     // } else {
       // return view.addSystemLine(0, "No current chatbot");
@@ -127,14 +126,20 @@ var view = {
     this.blurInput();
     this.addUserLine(0, query);
   },
+  addResponseProcessing: function() {
+    this.addChatbotLine(0, "Alan is reading the message", false);
+  },
   addResponse: function(response, hasButtons) {
     var length = response.length * 100;
-    this.addChatbotLine(0, "Alan is typing...", false);
+    setTimeout(function() {
+      $("#output div:last").empty();
+    }, 1500);
+    this.addChatbotLine(1500, "Alan is typing...", false);
     setTimeout(function() {
       $("#output div:last").empty();
       view.addChatbotLine(0, response, hasButtons);
       view.focusInput();
-    }, 2000 + (0.25 * length + 50));
+    }, Math.max(1500, length));
   },
   loadChatbot: function() {
     this.hideInput();
