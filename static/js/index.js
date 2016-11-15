@@ -1,11 +1,11 @@
 var chatbot;
-var chatbotResponseNumber;
+var lineNumber;
 var startTime;
 var asked;
 
 $(document).ready(function() {
   chatbot = null;
-  chatbotResponseNumber = 0;
+  lineNumber = 0;
   startTime = new Date();
   asked = false;
 
@@ -35,19 +35,19 @@ var controllers = {
   },
   askQuestion: function() {
     asked = true;
-    $.getJSON('/question', {}, function(data) {
+    $.getJSON('/question', function(data) {
       view.addQuestionResponse(data.response);
     });
   },
   submitQuery: function() {
-    controllers.resetTimer();
+    this.resetTimer();
     var query = $("#input").text();
     view.addQuery(query);
-    var id = view.addResponseReading();
+    var id = view.addQueryResponse();
     $.getJSON('/submit', {
       query: query
     }, function(data) {
-      view.addResponse(id, data.response);
+      view.changeQueryResponse(id, data.response);
       controllers.resetTimer();
     });
   }
@@ -67,33 +67,31 @@ var view = {
     $("#input").focus();
   },
   disableInput: function() {
-    this.clearInput();
     $("#input").attr("contenteditable", false);
   },
   enableInput: function() {
     $("#input").attr("contenteditable", true);
-    this.focusInput();
   },
   hideInput: function() {
-    this.clearInput();
     $("#input-line").css("visibility", "hidden");
   },
   showInput: function() {
     $("#input-line").css("visibility", "visible");
-    this.focusInput();
   },
-  addUserLine: function(delay, message) {
+  addLine: function(delay, sender, color, message) {
+    var id = ++lineNumber;
     setTimeout(function() {
-      $("#output").append("<div class='line'>you$ &zwnj;<span class='yellow'>" + message + "</span></div>");
+      $("#output").append("<div class='line' id=" + id + ">" + sender + "$ &zwnj;<span class=" + color + ">" + message + "</span></div>");
       view.scrollToBottom();
     }, delay);
+    return id;
   },
   addChatbotLine: function(delay, message) {
-    var id = ++chatbotResponseNumber;
-    setTimeout(function() {
-      $("#output").append("<div class='line' id='" + id + "'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
-      view.scrollToBottom();
-    }, delay);
+    var id = this.addLine(delay, chatbot, "green", message);
+    return id;
+  },
+  addUserLine: function(delay, message) {
+    var id = this.addLine(delay, "You", "yellow", message);
     return id;
   },
   changeChatbotLine: function(id, delay, message) {
@@ -102,28 +100,44 @@ var view = {
       view.scrollToBottom();
     }, delay);
   },
-  addQuery: function(query) {
-    this.disableInput();
-    this.addUserLine(0, query);
+  changeResponseTyping: function(id, delay, time) {
+    setTimeout(function() {
+      length = (time - delay) / 200;
+      message = "Alan is typing";
+      for (var i = 1; i < length; i++) { 
+        view.changeChatbotLine(id, 200 * (i - 1), message);
+        message += ".";
+        if (i % 6 === 0 && i > 0) {
+          message = message.substring(0, message.length - 6);
+        }
+      }
+    }, delay);
   },
-  addResponseReading: function() {
+  changeResponse: function(id, response, delayTyping, delayResponse) {
+    var timeResponse = response.length * 100;
+    var time = Math.max(delayResponse, timeResponse);
+    this.changeResponseTyping(id, delayTyping, time);
+    this.changeChatbotLine(id, time, response);
+    setTimeout(function() {
+      view.enableInput();
+      view.focusInput();
+    }, time);
+  },
+  addQuestionResponse: function(response) {
+    var id = this.addChatbotLine(0, "Alan is typing");
+    this.changeResponse(id, response, 0, 1500);
+  },
+  addQuery: function(query) {
+    this.clearInput();
+    this.disableInput();
+    var id = this.addUserLine(0, query);
+    return id;
+  },
+  addQueryResponse: function() {
     var id = this.addChatbotLine(0, "Alan is reading the message");
     return id;
   },
-  addResponse: function(id, response) {
-    var length = response.length * 100;
-    this.changeResponseTyping(id);
-    this.changeChatbotLine(id, Math.max(3000, length), response);
-    setTimeout(function() {
-      view.enableInput();
-    }, Math.max(3000, length));
-  },
-  addQuestionResponse: function(response) {
-    var length = responsed.length * 100;
-    var id = this.addChatbotLine(0, "Alan is typing...");
-    this.changeChatbotLine(id, Math.max(1500, length), response);
-    setTimeout(function() {
-      view.enableInput();
-    }, Math.max(1500, length));
+  changeQueryResponse: function(id, response) {
+    this.changeResponse(id, response, 1500, 3000);
   }
 };
