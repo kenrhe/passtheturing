@@ -1,13 +1,18 @@
-var chatbot = null;
-var chatbotResponseNumber = 0;
-var chatbotResponseIds = {};
-var startTime = new Date();
-var asked = false;
+var chatbot;
+var chatbotResponseNumber;
+var startTime;
+var asked;
 
 $(document).ready(function() {
+  chatbot = null;
+  chatbotResponseNumber = 0;
+  startTime = new Date();
+  asked = false;
+
   controllers.startTimer();
   chatbot = "Alan";
   view.focusInput();
+
   $("#input").on("keydown", function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -24,29 +29,27 @@ var controllers = {
       }
     }, 1000);
   },
+  resetTimer: function() {
+    startTime = new Date();
+    asked = false;
+  },
   askQuestion: function() {
     asked = true;
     $.getJSON('/question', {}, function(data) {
-      controllers.addId(data.id);
       view.addQuestionResponse(data.response);
     });
   },
   submitQuery: function() {
-    startTime = new Date();
-    asked = false;
+    controllers.resetTimer();
     var query = $("#input").text();
     view.addQuery(query);
-    view.addResponseProcessing();
+    var id = view.addResponseReading();
     $.getJSON('/submit', {
       query: query
     }, function(data) {
-      controllers.addId(data.id);
-      view.addResponse(data.response);
+      view.addResponse(id, data.response);
+      controllers.resetTimer();
     });
-  },
-  addId: function(id) {
-    chatbotResponseNumber++;
-    chatbotResponseIds.chatbotResponseNumber = id;
   }
 };
 
@@ -85,9 +88,17 @@ var view = {
       view.scrollToBottom();
     }, delay);
   },
-  addChatbotLine: function(delay, message, hasButtons) {
+  addChatbotLine: function(delay, message) {
+    var id = ++chatbotResponseNumber;
     setTimeout(function() {
-      $("#output").append("<div class='line'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
+      $("#output").append("<div class='line' id='" + id + "'>" + chatbot + "$ &zwnj;<span class='green'>" + message + "</span></div>");
+      view.scrollToBottom();
+    }, delay);
+    return id;
+  },
+  changeChatbotLine: function(id, delay, message) {
+    setTimeout(function() {
+      $("#" + id + " span").html(message);
       view.scrollToBottom();
     }, delay);
   },
@@ -95,29 +106,22 @@ var view = {
     this.disableInput();
     this.addUserLine(0, query);
   },
-  addResponseProcessing: function() {
-    this.addChatbotLine(0, "Alan is reading the message");
+  addResponseReading: function() {
+    var id = this.addChatbotLine(0, "Alan is reading the message");
+    return id;
   },
-  addResponse: function(response) {
+  addResponse: function(id, response) {
     var length = response.length * 100;
-    setTimeout(function() {
-      $("#output div:last").remove();
-    }, 1500);
-    this.addChatbotLine(1500, "Alan is typing...");
-    setTimeout(function() {
-      $("#output div:last").remove();
-    }, Math.max(3000, length));
-    this.addChatbotLine(Math.max(3000, length), response);
+    this.changeResponseTyping(id);
+    this.changeChatbotLine(id, Math.max(3000, length), response);
     setTimeout(function() {
       view.enableInput();
     }, Math.max(3000, length));
   },
   addQuestionResponse: function(response) {
-    this.addChatbotLine(0, "Alan is typing...");
-    setTimeout(function() {
-      $("#output div:last").remove();
-    }, Math.max(1500, length));
-    this.addChatbotLine(Math.max(1500, length), response);
+    var length = responsed.length * 100;
+    var id = this.addChatbotLine(0, "Alan is typing...");
+    this.changeChatbotLine(id, Math.max(1500, length), response);
     setTimeout(function() {
       view.enableInput();
     }, Math.max(1500, length));
